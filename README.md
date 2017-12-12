@@ -1,6 +1,6 @@
 # Projeto: Snake
 
-Projeto feito em Swift no Xcode do jogo clássico Snake. Desenvolvimento de uma versão simples onde há somente um alimento para o jogador pegar e receber um ponto. Além dos pontos, também é marcado em quanto tempo essa marca foi atingida.
+Projeto feito em Swift no Xcode do jogo clássico Snake. Desenvolvimento de uma versão simples onde há somente um alimento para o jogador pegar e receber um ponto.
 
 ### Jogo
 
