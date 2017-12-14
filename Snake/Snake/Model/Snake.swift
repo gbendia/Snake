@@ -91,13 +91,18 @@ class Snake {
         
     }
     
+    /// Adiciona uma comida na cobra
+    func eat() {
+        self.body.first?.hasFood = true
+    }
+    
     /// Altera a direção para onde a cobra está olhando
     ///
     /// - Parameter direction: Direção para onde a cobra deve olhar
     /// - Returns: Sucesso da operação. true se bem sucedida, false caso contrário
     func changeDirection(to direction: Direction) -> Bool {
         
-        print("Current direction: \(self.direction)\n")
+        print("Current direction: \(self.direction!)\n")
         print("New direction: \(direction)\n")
         
         switch self.direction {

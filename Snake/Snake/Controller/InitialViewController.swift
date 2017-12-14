@@ -26,6 +26,10 @@ class InitialViewController: UIViewController {
         
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
     // MARK: - Funções dos botões -
     
     @objc func easyTapped() {
