@@ -19,7 +19,7 @@ class InitialView: UIView {
         super.init(frame: view.frame)
         
         // Configurações da View
-        view.backgroundColor = UIColor.init(red: 9/255, green: 41/255, blue: 3/255, alpha: 1)
+        view.backgroundColor = UIColor(red: 9/255, green: 41/255, blue: 3/255, alpha: 1)
         
         // MARK: titleImage
         self.titleImage = UIImageView(frame: CGRect.init(x: 0, y: view.frame.height * 0.255281, width: view.frame.width * 0.734375, height: view.frame.height * 0.105633))
@@ -29,20 +29,18 @@ class InitialView: UIView {
         self.titleImage.contentMode = .scaleAspectFit
         
         // MARK: easyModeButton
-        
-        self.easyModeButton = UIButton(frame: CGRect(x: 0, y: view.frame.height * 0.540492, width: view.frame.width * 0.1875, height: view.frame.height * 0.0528169))
+        self.easyModeButton = UIButton(type: .system)
+        self.easyModeButton.frame = CGRect(x: 0, y: view.frame.height * 0.540492, width: view.frame.width * 0.1875, height: view.frame.height * 0.0528169)
         // Ajustando o x do centro para o meio da tela
         self.easyModeButton.center.x = view.center.x
         self.easyModeButton.setTitle("fácil", for: .normal)
         self.easyModeButton.tintColor = .white
         self.easyModeButton.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 24)
         self.easyModeButton.titleLabel?.textAlignment = .center
-        self.easyModeButton.sendActions(for: .touchDown)
-//        self.easyModeButton.showsTouchWhenHighlighted = true
-//        self.easyModeButton.reversesTitleShadowWhenHighlighted = true
         
         // MARK: mediumModeButton
-        self.mediumModeButton = UIButton(frame: CGRect(x: 0, y: view.frame.height * 0.665492, width: view.frame.width * 0.25, height: view.frame.height * 0.0528169))
+        self.mediumModeButton = UIButton(type: .system)
+        self.mediumModeButton.frame = CGRect(x: 0, y: view.frame.height * 0.665492, width: view.frame.width * 0.25, height: view.frame.height * 0.0528169)
         // Ajustando o x do centro para o meio da tela
         self.mediumModeButton.center.x = view.center.x
         self.mediumModeButton.setTitle("médio", for: .normal)
@@ -51,7 +49,8 @@ class InitialView: UIView {
         self.mediumModeButton.titleLabel?.textAlignment = .center
         
         // MARK: hardModeButton
-        self.hardModeButton = UIButton(frame: CGRect(x: 0, y: view.frame.height * 0.788732, width: view.frame.width * 0.234375, height: view.frame.height * 0.0528169))
+        self.hardModeButton = UIButton(type: .system)
+        self.hardModeButton.frame = CGRect(x: 0, y: view.frame.height * 0.788732, width: view.frame.width * 0.234375, height: view.frame.height * 0.0528169)
         // Ajustando o x do centro para o meio da tela
         self.hardModeButton.center.x = view.center.x
         self.hardModeButton.setTitle("difícil", for: .normal)

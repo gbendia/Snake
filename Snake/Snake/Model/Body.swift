@@ -19,19 +19,20 @@ class Body {
     // Se a parte do corpo está com comida ou não
     var hasFood: Bool!
     
-    // Tamanho de cada parte do corpo (diâmetro do círculo)
-    private static var size = 20
+    // Tamanho de cada parte do corpo (diâmetro do círculo). É alterado quando o jogo inicia para ser do tamanho do lado de cada casa do grid
+    private var size: CGFloat!
     
     init(x: Int, y: Int) {
         self.x = x
         self.y = y
         self.hasFood = false
+        self.size = GameView.cellSize
     }
     
     /// Retorna o tamanho da parte do corpo da cobra.
     ///
     /// - Returns: Maior tamanho possível para o corpo da cobra (diâmtro quando tem comida nessa parte)
-    static func getSize() -> Int {
+    func getSize() -> CGFloat {
         return self.size
     }
     
@@ -41,10 +42,10 @@ class Body {
     func getRadius() -> CGFloat {
         // Retorna o maior raio para indicar que há comida nessa parte
         if self.hasFood {
-            return CGFloat(Body.getSize()/2)
+            return CGFloat(getSize()/2)
         } else {
             // Retorna um
-            return CGFloat(Double(Body.getSize())/2 * 0.85)
+            return CGFloat(Double(getSize())/2 * 0.7)
         }
     }
     

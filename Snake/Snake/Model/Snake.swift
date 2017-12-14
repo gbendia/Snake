@@ -6,7 +6,7 @@
 //  Copyright © 2017 Gabriel Bendia. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// Direções possíveis para onde a cobra pode estar olhando (direção de movimento)
 enum Direction {
@@ -32,12 +32,12 @@ class Snake {
         self.direction = .right
         
         // Posição inicial da cabeça
-        var posX = 0
-        let posY = 0
+        var posX: Int = 3
+        let posY: Int = 9
         for _ in 0...2 {
             let newBody = Body(x: posX, y: posY)
             self.body.append(newBody)
-            posX -= Body.getSize() // Tamanho de uma parte do corpo (diâmetro da maior bolinha) para inserir a próxima
+            posX -= 1 // Vai para a casa anterior
         }
         
     }
@@ -64,19 +64,19 @@ class Snake {
         switch self.direction {
         case .up:
             // Atualiza coordenada y para cima
-            posY! -= Body.getSize()
+            posY! -= 1
         
         case .down:
             // Atualiza coordenada y para baixo
-            posY! += Body.getSize()
+            posY! += 1
         
         case .left:
             // Atualiza a coordenada x para esquerda
-            posX! -= Body.getSize()
+            posX! -= 1
         
         case .right:
             // Atualiza a coordenada x para direita
-            posX! += Body.getSize()
+            posX! += 1
         
         default:
             print("\n***** Unknown direction ******\n\n")
