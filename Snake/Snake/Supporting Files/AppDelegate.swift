@@ -17,8 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Configurando tela inicial para InitialViewController
         window = UIWindow(frame: UIScreen.main.bounds)
-        let initialViewController = UIViewController()
-        initialViewController.view.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1)
+        let initialViewController = InitialViewController()
         window!.rootViewController = initialViewController
         window!.makeKeyAndVisible()
         return true
