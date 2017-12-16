@@ -13,20 +13,22 @@ class GameViewController: UIViewController {
     var gameView: GameView!
     
     var points: Int! {
+        // Atualiza a label dos pontos quando essa variável é alterada
         didSet {
-            self.gameView.numberOfPointsLabel.text = "\(points)"
+            self.gameView.numberOfPointsLabel.text = "\(points!)"
         }
     }
     var currentTime: Int! {
+        // Atualiza a label do tempo quando essa variavél é alterada
         didSet {
-            self.gameView.timeLabel.text = "\(currentTime)"
+            self.gameView.secondsLabel.text = "\(currentTime!)"
         }
     }
     
     // Intervalo de tempo da dificuldade selecionada
-    // Fácil:   1 segundo
-    // Médio:   0.5 segundo
-    // Difícil: 0.25 segundo
+    // Fácil:   0.5 segundo
+    // Médio:   0.3 segundo
+    // Difícil: 0.1 segundo
     var timeInterval: TimeInterval!
     
     // Timer para contar o tempo de jogo
@@ -66,9 +68,7 @@ class GameViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        print("\n\ntimeInterval: \(self.timeInterval)\n\n")
-        
+                
         // Inicialização da grid
         self.grid = [ : ]
         for i in 0...18 {
@@ -84,7 +84,9 @@ class GameViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // Ativa o timer para a cobra se movimentar
+        
+        self.difficultyTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(moveSnake), userInfo: nil, repeats: true)
+        self.gameTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
         
     }
     
@@ -128,6 +130,11 @@ class GameViewController: UIViewController {
         
     }
     
+    /// Atualiza o tempo atual do jogo
+    @objc func updateTime() {
+        self.currentTime = self.currentTime + 1
+    }
+    
     // MARK: - Lógica do jogo
     
     /// Inicia um novo jogo criando uma nova cobra e resetando a grid
@@ -139,15 +146,13 @@ class GameViewController: UIViewController {
     
     /// Função chamada para encerrar o jogo quando a cobra bate na parede
     private func endGame() {
-        // Provisoriamente, volta pra tela de inicio depois de 5 segundos
         
-        
-        // Fazer a cobra piscar e mostrar um alerta depois
+        // Fazer a cobra piscar e mostrar um alerta com o numero de pontos e tempo de jogo
         
     }
     
     /// Verifica o próximo movimento da cobra para fazer as devidas atualizações na interface e realiza o movimento, caso possível.
-    private func moveSnake() {
+    @objc private func moveSnake() {
         
         // Variável que indica se a cobra comeu na rodada
         var snakeAte = false
@@ -159,7 +164,7 @@ class GameViewController: UIViewController {
         // Checando a direção para ver se a cobra irá bater na parede ou não
         switch self.snake.getDirection() {
         case .up:
-            if snakeY! - 1 < 0 || self.grid[snakeY! - 1]?[snakeX!] == 2 {
+            if snakeY! - 1 < 0 || self.grid[snakeY! - 1]?[snakeX!] == 1 {
                 // Vai bater na parede ou nela mesma
                 self.endGame()
                 return;
@@ -216,17 +221,17 @@ class GameViewController: UIViewController {
             }
             
         case.right:
-            if snakeX! + 1 > 11 || self.grid[snakeY! - 1]?[snakeX! + 1] == 1 {
+            if snakeX! + 1 > 11 || self.grid[snakeY!]?[snakeX! + 1] == 1 {
                 // Vai bater na parede ou nela mesma
                 self.endGame()
                 return;
             } else {
                 // Não vai bater na parede, então pode se movimentar
-                if self.grid[snakeY! - 1]?[snakeX! + 1] == 2 {
+                if self.grid[snakeY!]?[snakeX! + 1] == 2 {
                     // Vai comer uma fruta no próximo movimento
                     
                     // Atualiza para onde a cobra vai (para nao criar uma comida na próxima posição da cobra)
-                    self.grid[snakeY! - 1]?[snakeX! + 1] = 1
+                    self.grid[snakeY!]?[snakeX! + 1] = 1
                     
                     // Cria nova comida para a cobra
                     self.createFood()
@@ -241,11 +246,14 @@ class GameViewController: UIViewController {
         if (self.snake.body.last?.hasFood)! {
             // Cobra vai ganhar uma parte nova, então só adiciona o desenho da cabeça e atualiza o desenho da ultima parte
             
+            self.removeDrawnBodyFromSnake(pos: self.snake.body.count-1)
+            
             self.snake.move()
             
             // Verifica se a cobra comeu no movimento
             if snakeAte {
                 self.snake.eat()
+                self.points = self.points + 1
                 
                 // Cria nova comida para a cobra
                 self.createFood()
@@ -255,19 +263,19 @@ class GameViewController: UIViewController {
             self.drawBodyFromSnake(pos: 0)
             
             // Atualiza o desenho da ultima parte da cobra
-            self.removeDrawnBodyFromSnake(pos: self.snake.body.count-1)
             self.drawBodyFromSnake(pos: self.snake.body.count-1)
             
         } else {
             // Cobra pode realizar o movimento normalmente
             
-            self.snake.move()
-            
             // Remove o desenho da ultima parte do corpo
             self.removeDrawnBodyFromSnake(pos: self.snake.body.count-1)
             
+            self.snake.move()
+            
             if snakeAte {
                 self.snake.eat()
+                self.points = self.points + 1
                 
                 // Cria nova comida para a cobra
                 self.createFood()
@@ -277,8 +285,6 @@ class GameViewController: UIViewController {
             self.drawBodyFromSnake(pos: 0)
         }
         
-        print("\nFinalizei o movimento: \(String(describing: snakeX)), \(String(describing: snakeY)) -> \(String(describing: self.snake.body.first?.x)), \(String(describing: self.snake.body.first?.y))\n")
-        
     }
     
     /// Cria comida numa posição onde não tem nenhuma parte da cobra
@@ -287,7 +293,7 @@ class GameViewController: UIViewController {
         // Caso já exista uma comida no jogo, remove o desenho para criar outro
         if foodX != -1 && foodY != -1 {
             self.gameView.removeDrawingFromPosition(x: foodX, y: foodY)
-            self.grid[foodX]?[foodY] = 0
+            self.grid[foodY]?[foodX] = 0
         }
         
         // Sorteia uma posição para a comida até encontrar uma posição onde não há nada
@@ -297,9 +303,10 @@ class GameViewController: UIViewController {
             self.foodY = Int(arc4random_uniform(18))
             
             // Verifica se não há alguma coisa na casa sorteada
-            if grid[foodX]?[foodY] == 0 {
+            if grid[foodY]?[foodX] == 0 {
                 validPosition = true
                 self.grid[foodY]?[foodX] = 2
+                self.showGrid()
             }
         }
         self.drawFood()

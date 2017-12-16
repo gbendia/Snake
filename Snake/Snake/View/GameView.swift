@@ -15,7 +15,7 @@ class GameView: UIView {
     var timeLabel: UILabel!
     var secondsLabel: UILabel!
     
-    // Matriz representando as casas onde a cobra pode andar. 19 de altura e 12 de largura, com um total de 228 casas
+    // Matriz representando as casas onde a cobra pode andar. 19 de altura e 12 de largura, com um total de 228 casas. Indipendente do telefone, a matriz terá esses mesmos valores.
     var grid: UIView!
     var borderSize: CGFloat!
     

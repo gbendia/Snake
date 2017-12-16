@@ -35,7 +35,7 @@ class InitialViewController: UIViewController {
     @objc func easyTapped() {
         
         // Inserindo intervalo de tempo fácil
-        let interval = TimeInterval(exactly: 1)
+        let interval = TimeInterval(exactly: 0.5)
         
         let gameController = GameViewController()
         gameController.timeInterval = interval
@@ -46,7 +46,7 @@ class InitialViewController: UIViewController {
     @objc func mediumTapped() {
         
         // Inserindo intervalo de tempo médio
-        let interval = TimeInterval(exactly: 0.5)
+        let interval = TimeInterval(exactly: 0.3)
         
         let gameController = GameViewController()
         gameController.timeInterval = interval
@@ -57,7 +57,7 @@ class InitialViewController: UIViewController {
     @objc func hardTapped() {
         
         // Inserindo intervalo de tempo difícil
-        let interval = TimeInterval(exactly: 0.25)
+        let interval = TimeInterval(exactly: 0.1)
         
         let gameController = GameViewController()
         gameController.timeInterval = interval
