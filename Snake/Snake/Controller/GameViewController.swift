@@ -218,10 +218,15 @@ class GameViewController: UIViewController {
         let snakeX = self.snake.body.first?.x!
         let snakeY = self.snake.body.first?.y!
         
+        // Posição atual do final da cobra
+        let lastSnakeX = self.snake.body.last?.x!
+        let lastSnakeY = self.snake.body.last?.y!
+        
         // Checando a direção para ver se a cobra irá bater na parede ou não
         switch self.snake.getDirection() {
         case .up:
-            if snakeY! - 1 < 0 || self.grid[snakeY! - 1]?[snakeX!] == 1 {
+            // Verifica se a parte que a cobra vai bater é a última parte dela e não vai aparecer uma nova. A cobra ainda pode andar caso vá ocupar a posição da última parte do seu corpo e nenhuma nova vai aparecer
+            if snakeY! - 1 < 0 || (self.grid[snakeY! - 1]?[snakeX!] == 1 && snakeY! - 1 != lastSnakeY && snakeX != lastSnakeX && !(self.snake.body.last?.hasFood)!) {
                 // Vai bater na parede ou nela mesma
                 self.endGame()
                 return;
@@ -240,7 +245,8 @@ class GameViewController: UIViewController {
             }
             
         case .down:
-            if snakeY! + 1 > 18 || self.grid[snakeY! + 1]?[snakeX!] == 1 {
+            // Verifica se a parte que a cobra vai bater é a última parte dela e não vai aparecer uma nova. A cobra ainda pode andar caso vá ocupar a posição da última parte do seu corpo e nenhuma nova vai aparecer
+            if snakeY! + 1 > 18 || (self.grid[snakeY! + 1]?[snakeX!] == 1 && snakeY! + 1 != lastSnakeY && snakeX != lastSnakeX && !(self.snake.body.last?.hasFood)!) {
                 // Vai bater na parede ou nela mesma
                 self.endGame()
                 return;
@@ -259,7 +265,8 @@ class GameViewController: UIViewController {
             }
             
         case.left:
-            if snakeX! - 1 < 0 || self.grid[snakeY!]?[snakeX! - 1] == 1 {
+            // Verifica se a parte que a cobra vai bater é a última parte dela e não vai aparecer uma nova. A cobra ainda pode andar caso vá ocupar a posição da última parte do seu corpo e nenhuma nova vai aparecer
+            if snakeX! - 1 < 0 || (self.grid[snakeY!]?[snakeX! - 1] == 1 && snakeY! != lastSnakeY && snakeX! - 1 != lastSnakeX && !(self.snake.body.last?.hasFood)!) {
                 // Vai bater na parede ou nela mesma
                 self.endGame()
                 return;
@@ -278,7 +285,8 @@ class GameViewController: UIViewController {
             }
             
         case.right:
-            if snakeX! + 1 > 11 || self.grid[snakeY!]?[snakeX! + 1] == 1 {
+            // Verifica se a parte que a cobra vai bater é a última parte dela e não vai aparecer uma nova. A cobra ainda pode andar caso vá ocupar a posição da última parte do seu corpo e nenhuma nova vai aparecer
+            if snakeX! + 1 > 11 || (self.grid[snakeY!]?[snakeX! + 1] == 1 && snakeY! != lastSnakeY && snakeX! + 1 != lastSnakeX && !(self.snake.body.last?.hasFood)!) {
                 // Vai bater na parede ou nela mesma
                 self.endGame()
                 return;
