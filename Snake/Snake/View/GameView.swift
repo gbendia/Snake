@@ -14,6 +14,9 @@ class GameView: UIView {
     var numberOfPointsLabel: UILabel!
     var timeLabel: UILabel!
     var secondsLabel: UILabel!
+    var gameOverLabel: UILabel!
+    var restartButton: UIButton!
+    var backButton: UIButton!
     
     // Matriz representando as casas onde a cobra pode andar. 19 de altura e 12 de largura, com um total de 228 casas. Indipendente do telefone, a matriz terá esses mesmos valores.
     var grid: UIView!
@@ -33,7 +36,7 @@ class GameView: UIView {
         GameView.cellSize = (view.frame.width - 2 * self.borderSize) / 12
         
         // Configurações da View
-        view.backgroundColor = UIColor.init(red: 9/255, green: 41/255, blue: 3/255, alpha: 1)
+        view.backgroundColor = UIColor(red: 9/255, green: 41/255, blue: 3/255, alpha: 1)
         
         // MARK: grid
         self.grid = UIView(frame: CGRect(x: self.borderSize, y: view.frame.height - (self.borderSize + 19 * GameView.cellSize), width: 12 * GameView.cellSize, height: 19 * GameView.cellSize))
@@ -70,12 +73,46 @@ class GameView: UIView {
         self.secondsLabel.textColor = .white
         self.secondsLabel.textAlignment = .right
         
+        // MARK: gameOverLabel
+        self.gameOverLabel = UILabel(frame: CGRect(x: 0, y: view.frame.height * 0.193661, width: view.frame.width * 0.6, height: view.frame.height * 0.264084))
+        self.gameOverLabel.center.x = self.grid.center.x - self.borderSize
+        self.gameOverLabel.lineBreakMode = .byClipping
+        self.gameOverLabel.numberOfLines = 0
+        self.gameOverLabel.font = UIFont(name: "AvenirNext-Bold", size: 52)
+        self.gameOverLabel.text = "GAME\nOVER"
+        self.gameOverLabel.textAlignment = .center
+        self.gameOverLabel.textColor = UIColor(red: 9/255, green: 41/255, blue: 3/255, alpha: 1)
+        self.gameOverLabel.isHidden = true
+        
+        // MARK: restartButton
+        self.restartButton = UIButton(type: .system)
+        self.restartButton.frame = CGRect(x: 0, y: self.gameOverLabel.frame.maxY + view.frame.height * 0.0704225, width: view.frame.height * 0.390625, height: view.frame.height * 0.0440140)
+        self.restartButton.center.x = self.grid.center.x - self.borderSize
+        self.restartButton.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 22)
+        self.restartButton.setTitle("recomeçar", for: .normal)
+        self.restartButton.titleLabel?.textAlignment = .center
+        self.restartButton.tintColor = UIColor(red: 9/255, green: 41/255, blue: 3/255, alpha: 1)
+        self.restartButton.isHidden = true
+        
+        // MARK: backButton
+        self.backButton = UIButton(type: .system)
+        self.backButton.frame = CGRect(x: 0, y: self.restartButton.frame.maxY + view.frame.height * 0.0440140, width: view.frame.width * 0.40625, height: view.frame.height * 0.0440140)
+        self.backButton.center.x = self.grid.center.x - self.borderSize
+        self.backButton.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 22)
+        self.backButton.setTitle("sair do jogo", for: .normal)
+        self.backButton.titleLabel?.textAlignment = .center
+        self.backButton.tintColor = UIColor(red: 9/255, green: 41/255, blue: 3/255, alpha: 1)
+        self.backButton.isHidden = true
+        
         // MARK: - Add Subviews -
         view.addSubview(grid)
         view.addSubview(pointsLabel)
         view.addSubview(numberOfPointsLabel)
         view.addSubview(timeLabel)
         view.addSubview(secondsLabel)
+        self.grid.addSubview(gameOverLabel)
+        self.grid.addSubview(restartButton)
+        self.grid.addSubview(backButton)
         
     }
     

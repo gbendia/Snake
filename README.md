@@ -8,9 +8,9 @@ Durante o jogo, é gerado um alimento para a cobra sempre que o anterior é comi
 
 A dificuldade do jogo pode ser escolhida antes do início de um jogo. Cada dificuldade muda o tempo que a cobra espera entre os movimentos.
 Tempo de cada dificuldades:
- *  Fácil - 1 segundo.
- *  Médio - 0.5 segundo.
- *  Difícil - 0.25 segundo.
+ *  Fácil - 0.4 segundo.
+ *  Médio - 0.25 segundo.
+ *  Difícil - 0.1 segundo.
 
 ## Planejamento de desenvolvimento
 
@@ -20,7 +20,7 @@ Tempo de cada dificuldades:
 * *14/12/2017* - Gerar, aleatoriamente, a posição para um alimento. Incrementar os pontos da cobra e aumentar seu tamanho ao comer o alimento.
 * *15/12/2017* - Colisão da cobra com ela mesma e a parede (fim do jogo). Implementação das diferentes dificuldades (alterar o tempo).
 * *16/12/2017* - Testes e correções de bugs.
-* *17/12/2017* - Testes e correções de bugs.
+* *17/12/2017* - Interface de Game Over e últimos ajustes.
 * *18/12/2017* - Envio do projeto.
 
 ## Autores

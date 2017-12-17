@@ -64,6 +64,9 @@ class GameViewController: UIViewController {
             self.view.addGestureRecognizer(gesture)
         }
         
+        self.gameView.restartButton.addTarget(self, action: #selector(restartGame), for: .touchUpInside)
+        self.gameView.backButton.addTarget(self, action: #selector(backButtonTaped), for: .touchUpInside)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,6 +109,10 @@ class GameViewController: UIViewController {
         }
     }
     
+    @objc func backButtonTaped() {
+        self.present(InitialViewController(), animated: true, completion: nil)
+    }
+    
     @objc func swipe(_ gestureRecognizer: UISwipeGestureRecognizer) {
         
         // Guarda a direção atual da cobra
@@ -139,15 +146,62 @@ class GameViewController: UIViewController {
     
     /// Inicia um novo jogo criando uma nova cobra e resetando a grid
     private func startGame() {
+        
+        // Esconde a interface de Game Over
+        self.gameView.gameOverLabel.isHidden = true
+        self.gameView.restartButton.isHidden = true
+        self.gameView.backButton.isHidden = true
         self.snake = Snake()
         self.drawSnake()
         self.createFood()
     }
     
+    @objc func restartGame() {
+        
+        // Esconde a interface de Game Over
+        self.gameView.gameOverLabel.isHidden = true
+        self.gameView.restartButton.isHidden = true
+        self.gameView.backButton.isHidden = true
+        
+        // Reseta a posição da cobra e o seu tamanho
+        self.snake = Snake()
+        self.drawSnake()
+        self.createFood()
+        
+        // Reinicia o tempo e os pontos
+        self.points = 0
+        self.currentTime = 0
+        
+        // Reinicia os timer para recomeçar o jogo
+        self.difficultyTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(moveSnake), userInfo: nil, repeats: true)
+        self.gameTime = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTime), userInfo: nil, repeats: true)
+        
+    }
+    
     /// Função chamada para encerrar o jogo quando a cobra bate na parede
     private func endGame() {
         
-        // Fazer a cobra piscar e mostrar um alerta com o numero de pontos e tempo de jogo
+        print("\n\nGAME OVER\n\n")
+        
+        // Para os timers
+        self.gameTime.invalidate()
+        self.difficultyTimer.invalidate()
+        
+        // Retira os desenhos da tela (cobra e comida atual)
+        self.removeSnake()
+        self.gameView.removeDrawingFromPosition(x: foodX, y: foodY)
+        
+        // Zera a grid
+        for i in 0...18 {
+            for j in 0...11 {
+                self.grid[i]?[j] = 0
+            }
+        }
+        
+        // Faz aparecer a interface de Game Over
+        self.gameView.gameOverLabel.isHidden = false
+        self.gameView.restartButton.isHidden = false
+        self.gameView.backButton.isHidden = false
         
     }
     
@@ -240,7 +294,7 @@ class GameViewController: UIViewController {
             }
         }
         
-        // Caso passe do switch, a cobra pode se movimentar e já comeu a fruta caso esse seja seu próximo movimento. Basta andar e atualiar sua posição na tela.
+        // Passando do switch, a cobra pode se movimentar e já atualizou que vai comer a fruta caso esse seja seu próximo movimento. Basta andar e atualiar sua posição na tela.
         
         // Verifica se deve adicionar uma parte à cobra (caso em que a comida já chegou no final do corpo)
         if (self.snake.body.last?.hasFood)! {
@@ -252,11 +306,17 @@ class GameViewController: UIViewController {
             
             // Verifica se a cobra comeu no movimento
             if snakeAte {
+                
+                // Atualiza previamente a nova posição do fim da cobra na grid para que uma comida não seja criada naquele espaço
+                self.grid[(self.snake.body.last?.y)!]?[(self.snake.body.last?.x)!] = 1
+                
+                // Cobra comendo a comida
                 self.snake.eat()
                 self.points = self.points + 1
                 
                 // Cria nova comida para a cobra
                 self.createFood()
+                
             }
             
             // Adiciona o desenho da cabeça
@@ -274,11 +334,14 @@ class GameViewController: UIViewController {
             self.snake.move()
             
             if snakeAte {
+                
+                // Cobra comendo a comida
                 self.snake.eat()
                 self.points = self.points + 1
                 
                 // Cria nova comida para a cobra
                 self.createFood()
+                
             }
             
             // Adiciona o desenho da cabeça
@@ -313,7 +376,7 @@ class GameViewController: UIViewController {
         
     }
     
-    // MARK: - Desenho
+    // MARK: - Interface da Grid
     
     /// Desenha uma parte do corpo específica da cobra na grid
     ///

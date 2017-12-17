@@ -25,11 +25,15 @@ class Snake {
     // Direção para onde a cobra está olhando.
     private var direction: Direction!
     
+    // Variável indicando se o usuário já trocou a direção para esse movimento
+    private var changedDirection: Bool!
+    
     init() {
         
         // A cobra sempre começa com 3 partes para o seu corpo (cabeça, corpo e rabo), numa posição previamente definida, olhando para a direita.
         self.body = [Body]()
         self.direction = .right
+        self.changedDirection = false
         
         // Posição inicial da cabeça
         var posX: Int = 3
@@ -83,6 +87,9 @@ class Snake {
             return
         }
         
+        // Atualiza que a cobra não mudou de direção para o próximo movimento
+        self.changedDirection = false
+        
         // Cria nova parte.
         let newBody = Body(x: posX!, y: posY!)
         
@@ -105,13 +112,17 @@ class Snake {
         print("Current direction: \(self.direction!)\n")
         print("New direction: \(direction)\n")
         
+        if self.changedDirection {
+            print("\n\nUser already changed direction\n\n\n")
+            return false
+        }
+        
         switch self.direction {
         case .up:
             // Só pode mudar para direita ou esquerda
             if direction == .left || direction == .right {
                 self.direction = direction
                 print("Direction successfuly changed\n")
-                return true
             }
         
         case .down:
@@ -119,7 +130,6 @@ class Snake {
             if direction == .left || direction == .right {
                 self.direction = direction
                 print("Direction successfuly changed\n")
-                return true
             }
         
         case .left:
@@ -127,7 +137,6 @@ class Snake {
             if direction == .up || direction == .down {
                 self.direction = direction
                 print("Direction successfuly changed\n")
-                return true
             }
         
         case .right:
@@ -135,14 +144,16 @@ class Snake {
             if direction == .up || direction == .down {
                 self.direction = direction
                 print("Direction successfuly changed\n")
-                return true
             }
         
         default:
             print("\n***** Unknown direction ******\n\n")
+            return false
         }
         
-        return false
+        // Conseguiu mudar a direção
+        self.changedDirection = true
+        return true
         
     }
     

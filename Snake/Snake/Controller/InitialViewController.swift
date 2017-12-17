@@ -34,8 +34,10 @@ class InitialViewController: UIViewController {
     
     @objc func easyTapped() {
         
+        print("\n\nEASY MODE\n\n")
+        
         // Inserindo intervalo de tempo fácil
-        let interval = TimeInterval(exactly: 0.5)
+        let interval = TimeInterval(exactly: 0.4)
         
         let gameController = GameViewController()
         gameController.timeInterval = interval
@@ -45,8 +47,10 @@ class InitialViewController: UIViewController {
     
     @objc func mediumTapped() {
         
+        print("\n\nMEDIUM MODE\n\n")
+        
         // Inserindo intervalo de tempo médio
-        let interval = TimeInterval(exactly: 0.3)
+        let interval = TimeInterval(exactly: 0.25)
         
         let gameController = GameViewController()
         gameController.timeInterval = interval
@@ -55,6 +59,8 @@ class InitialViewController: UIViewController {
     }
     
     @objc func hardTapped() {
+        
+        print("\n\nHARD MODE\n\n")
         
         // Inserindo intervalo de tempo difícil
         let interval = TimeInterval(exactly: 0.1)
