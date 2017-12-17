@@ -21,6 +21,8 @@ class InitialView: UIView {
         // Configurações da View
         view.backgroundColor = UIColor(red: 9/255, green: 41/255, blue: 3/255, alpha: 1)
         
+        // MARK: - Inicialização dos elementos da interface -
+        
         // MARK: titleImage
         self.titleImage = UIImageView(frame: CGRect.init(x: 0, y: view.frame.height * 0.255281, width: view.frame.width * 0.734375, height: view.frame.height * 0.105633))
         // Ajustando o x do centro para o meio da tela

@@ -38,6 +38,8 @@ class GameView: UIView {
         // Configurações da View
         view.backgroundColor = UIColor(red: 9/255, green: 41/255, blue: 3/255, alpha: 1)
         
+        // MARK: - Inicialização dos elementos da interface -
+        
         // MARK: grid
         self.grid = UIView(frame: CGRect(x: self.borderSize, y: view.frame.height - (self.borderSize + 19 * GameView.cellSize), width: 12 * GameView.cellSize, height: 19 * GameView.cellSize))
         let gridBackgroundImage = UIImageView(image: UIImage(named: "Snake_Grid"))
@@ -75,6 +77,7 @@ class GameView: UIView {
         
         // MARK: gameOverLabel
         self.gameOverLabel = UILabel(frame: CGRect(x: 0, y: view.frame.height * 0.193661, width: view.frame.width * 0.6, height: view.frame.height * 0.264084))
+        // Ajustando o x do centro para o meio da tela (como é subview da grid, tem que diminuir o x da grid para ficar no meio)
         self.gameOverLabel.center.x = self.grid.center.x - self.borderSize
         self.gameOverLabel.lineBreakMode = .byClipping
         self.gameOverLabel.numberOfLines = 0
@@ -87,6 +90,7 @@ class GameView: UIView {
         // MARK: restartButton
         self.restartButton = UIButton(type: .system)
         self.restartButton.frame = CGRect(x: 0, y: self.gameOverLabel.frame.maxY + view.frame.height * 0.0704225, width: view.frame.height * 0.390625, height: view.frame.height * 0.0440140)
+        // Ajustando o x do centro para o meio da tela (como é subview da grid, tem que diminuir o x da grid para ficar no meio)
         self.restartButton.center.x = self.grid.center.x - self.borderSize
         self.restartButton.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 22)
         self.restartButton.setTitle("recomeçar", for: .normal)
@@ -97,6 +101,7 @@ class GameView: UIView {
         // MARK: backButton
         self.backButton = UIButton(type: .system)
         self.backButton.frame = CGRect(x: 0, y: self.restartButton.frame.maxY + view.frame.height * 0.0440140, width: view.frame.width * 0.40625, height: view.frame.height * 0.0440140)
+        // Ajustando o x do centro para o meio da tela (como é subview da grid, tem que diminuir o x da grid para ficar no meio)
         self.backButton.center.x = self.grid.center.x - self.borderSize
         self.backButton.titleLabel?.font = UIFont(name: "AvenirNext-Medium", size: 22)
         self.backButton.setTitle("sair do jogo", for: .normal)
@@ -120,7 +125,9 @@ class GameView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Métodos da Interface -
+    // MARK: - Métodos -
+    
+    // MARK: - Inserindo desenhos
     
     func drawCirleInGrid(x: Int, y: Int, radius: CGFloat, color: UIColor) {
         
@@ -136,6 +143,8 @@ class GameView: UIView {
         grid.layer.addSublayer(shapeLayer)
         
     }
+    
+    // MARK: - Removendo desenhos
     
     /// Remove todos os desenhos da grid
     func removeDrawingFromPosition(x: Int, y: Int) {
