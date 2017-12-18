@@ -238,8 +238,6 @@ class GameViewController: UIViewController {
                     // Atualiza para onde a cobra vai (para nao criar uma comida na próxima posição da cobra)
                     self.grid[snakeY! - 1]?[snakeX!] = 1
                     
-                    // Cria nova comida para a cobra
-                    self.createFood()
                     snakeAte = true
                 }
             }
@@ -258,8 +256,6 @@ class GameViewController: UIViewController {
                     // Atualiza para onde a cobra vai (para nao criar uma comida na próxima posição da cobra)
                     self.grid[snakeY! + 1]?[snakeX!] = 1
                     
-                    // Cria nova comida para a cobra
-                    self.createFood()
                     snakeAte = true
                 }
             }
@@ -278,8 +274,6 @@ class GameViewController: UIViewController {
                     // Atualiza para onde a cobra vai (para nao criar uma comida na próxima posição da cobra)
                     self.grid[snakeY!]?[snakeX! - 1] = 1
                     
-                    // Cria nova comida para a cobra
-                    self.createFood()
                     snakeAte = true
                 }
             }
@@ -298,8 +292,6 @@ class GameViewController: UIViewController {
                     // Atualiza para onde a cobra vai (para nao criar uma comida na próxima posição da cobra)
                     self.grid[snakeY!]?[snakeX! + 1] = 1
                     
-                    // Cria nova comida para a cobra
-                    self.createFood()
                     snakeAte = true
                 }
             }
